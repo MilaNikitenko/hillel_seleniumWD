@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -42,16 +43,20 @@ public class LoginPage {
 
     @Test(priority = 1)
     public void checkLoginPageTitle(){
-        assertTrue(wait.until(ExpectedConditions.titleIs("signNow Login")));
+        String actualTitle = driver.getTitle();
+        assertEquals("signNow Login", actualTitle);
     }
 
-    @Test(priority = 2)
+  @Test(priority = 2)
     public void checkFacebookSocialLoginButton(){
         WebElement facebookButton = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(" //*[@type= 'button' and @aria-label=\"Log in using Facebook\"]"))));
         assertTrue(facebookButton.isDisplayed());
 
         facebookButton.click();
         wait.until(ExpectedConditions.urlContains("https://www.facebook.com/"));
+
+        String currentURL = driver.getCurrentUrl();
+        assertTrue(currentURL.startsWith("https://www.facebook.com/"));
     }
 
     @Test(priority = 3)
@@ -61,6 +66,9 @@ public class LoginPage {
 
         googleButton.click();
         wait.until(ExpectedConditions.urlContains("https://accounts.google.com/"));
+
+        String currentURL = driver.getCurrentUrl();
+        assertTrue(currentURL.startsWith("https://accounts.google.com/"));
     }
 
     @Test(priority = 4)
@@ -80,9 +88,7 @@ public class LoginPage {
         WebElement successAlert = wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h2")));
         String text = successAlert.getText();
         assertEquals("Great job! Just check your Inbox.", text);
-
     }
-
 
     @Test(priority = 5)
     public void checkRegistrationPageOpening(){
@@ -94,8 +100,9 @@ public class LoginPage {
         for (String handle : handles) {
             driver.switchTo().window(handle);
         }
-        String expectedURLPart = "/purchase/business_free_trial/loggedout";
-        wait.until(ExpectedConditions.urlContains(expectedURLPart));
+
+        String currentURL = driver.getCurrentUrl();
+        assertTrue(currentURL.contains("/purchase/business_free_trial/loggedout"));
     }
 
     @Test(priority = 6)
@@ -107,12 +114,13 @@ public class LoginPage {
         passwordField.sendKeys("123456");
 
         WebElement loginButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@aria-label=\"Log in\"]")));
-        // loginButton.click();
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
         javascriptExecutor.executeScript("arguments[0].click();", loginButton);
 
         wait.until(ExpectedConditions.urlContains("https://app.signnow.com/webapp/documents/"));
-    }
 
+        String currentURL = driver.getCurrentUrl();
+        assertTrue(currentURL.contains("https://app.signnow.com/webapp/documents/"));
+    }
 }
 
