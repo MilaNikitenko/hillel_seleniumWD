@@ -17,10 +17,6 @@ public class BaseTest {
     protected LoginPageHelper loginPageHelper;
     protected BasePageHelper basePageHelper;
 
-    /**
-     * Sets up the WebDriver instance, initializes wait, and initializes page objects.
-     * This method should be executed before any test method.
-     */
     @Parameters("browser")
 
     @BeforeClass(alwaysRun = true)
@@ -40,17 +36,11 @@ public class BaseTest {
         basePageHelper = new BasePageHelper(driver);
     }
 
-    /**
-     * Quits the WebDriver instance after all test methods have been executed.
-     */
     @AfterClass(alwaysRun = true)
     public void tearDown(){
         WebDriverFactory.closeDriver();
     }
 
-    /**
-     * Opens the login page before each test method.
-     */
     @BeforeMethod(alwaysRun = true)
     public void openLoginPage(){
         driver.get("https://app.signnow.com/rctapp/login");

@@ -12,6 +12,13 @@
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <org.testng.version>7.10.1</org.testng.version>
+        <selenium.java.version>4.20.0</selenium.java.version>
+        <allure.testng.version>2.27.0</allure.testng.version>
+        <aspectjweaver.version>1.9.22</aspectjweaver.version>
+        <allure.maven.version>2.12.0</allure.maven.version>
+        <reportVersion>2.17.3</reportVersion>
+        <assertj-core>3.25.3</assertj-core>
     </properties>
 
     <dependencies>
@@ -19,7 +26,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.10.1</version>
+            <version>${org.testng.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -27,18 +34,58 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.20.0</version>
+            <version>${selenium.java.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.25.3</version>
+            <version>${assertj-core}</version>
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure.testng.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectjweaver.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure.maven.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-allure-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <reportVersion>${reportVersion}</reportVersion>
+                    <resultsDirectory>${project.build.directory}/allure-report</resultsDirectory>
+                    <reportDirectory>${project.build.directory}/allure-result</reportDirectory>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
 
 </project>

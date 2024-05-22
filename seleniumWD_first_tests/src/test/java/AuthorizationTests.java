@@ -4,6 +4,7 @@
  *  @author Liudmyla Nikitenko
  */
 
+import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -12,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 import pages.RecoverPasswordPage;
 import java.util.Set;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -24,11 +26,14 @@ import static pages.RecoverPasswordPage.*;
  * and performing various login-related tests.
  */
 
+@Owner("Liudmyla Nikitenko")
+@Epic("My first UI tests")
+@Link(name = "Login_Page", url = "https://app.signnow.com/rctapp/login")
+
 public class AuthorizationTests extends BaseTest {
-    /**
-     * Verifies the title of the login page.
-     * This test checks if the title matches the expected value.
-     */
+
+    @Flaky
+    @Severity(SeverityLevel.NORMAL)
     @Test(priority = 1)
     public void checkLoginPageTitle(){
         String actualTitle = driver.getTitle();
@@ -40,9 +45,8 @@ public class AuthorizationTests extends BaseTest {
                 .startsWith("signNow");
     }
 
-    /**
-     * Checks the functionality of the Facebook social login button.
-     */
+    @Issue("Task # ")
+    @Severity(SeverityLevel.CRITICAL)
     @Test(priority = 2)
     public void checkFacebookSocialLoginButton(){
         Actions action = new Actions(driver);
@@ -59,9 +63,7 @@ public class AuthorizationTests extends BaseTest {
                 .contains("facebook");
     }
 
-    /**
-     * Checks the functionality of the Google social login button.
-     */
+    @Severity(SeverityLevel.CRITICAL)
     @Test(priority = 3)
     public void checkGoogleSocialLoginButton(){
         WebElement googleButton = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(GOOGLE_BUTTON)));
@@ -74,13 +76,7 @@ public class AuthorizationTests extends BaseTest {
         assertTrue(currentURL.startsWith("https://accounts.google.com/"));
     }
 
-    /**
-     * Checks the functionality of the "Forgot Password" feature.
-     * This test verifies if the user can successfully request password recovery.
-     * It clicks on the "Forgot Password" button, fills in the email field with
-     * a valid email address, submits the form, and verifies the success message.
-     * Additionally, it ensures that the user is redirected to the password recovery page.
-     */
+    @Severity(SeverityLevel.CRITICAL)
     @Test(priority = 4)
     public void checkForgotPasswordFunctionality(){
         recoverPasswordPage = new RecoverPasswordPage(driver);
@@ -108,14 +104,7 @@ public class AuthorizationTests extends BaseTest {
                 isEqualTo("Great job! Just check your Inbox.");
     }
 
-    /**
-     * Checks the functionality of the "Sign Up" button.
-     * This test verifies if the user can open the registration page
-     * by clicking on the "Sign Up" button. It clicks on the "Sign Up" button,
-     * switches to the new window, and verifies the URL of the opened page.
-     * Additionally, it ensures that the URL contains specific parameters
-     * indicating the type of registration page.
-     */
+    @Severity(SeverityLevel.BLOCKER)
     @Test(priority = 5)
     public void checkRegistrationPageOpening(){
         Actions action = new Actions(driver);
@@ -136,11 +125,7 @@ public class AuthorizationTests extends BaseTest {
                 .contains("snseats");
     }
 
-    /**
-     * Checks the successful login functionality.
-     * This test verifies if the user can login successfully
-     * with valid email and password.
-     */
+    @Severity(SeverityLevel.CRITICAL)
     @Test(priority = 6)
     public void checkSuccessLogin(){
         loginPageHelper.fillEmailOnLoginPage();

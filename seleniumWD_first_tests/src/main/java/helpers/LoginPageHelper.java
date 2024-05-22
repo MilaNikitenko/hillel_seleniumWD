@@ -13,7 +13,7 @@ import static pages.LoginPage.EMAIL_FIELD;
 import static pages.LoginPage.LOGIN_BUTTON;
 
 /**
- * LoginPageHelper for the login page https://app.signnow.com/rctapp/login
+ * LoginPageHelper for the login page "https://app.signnow.com/rctapp/login"
  */
 public class LoginPageHelper extends BasePageHelper {
     protected WebDriver driver;
@@ -44,7 +44,7 @@ public class LoginPageHelper extends BasePageHelper {
      * @param passwordField By locator for the password field
      */
     public void fillPasswordOnLoginPage(By passwordField) {
-        Actions action = new Actions(driver);
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         WebElement passwordElement = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField));
