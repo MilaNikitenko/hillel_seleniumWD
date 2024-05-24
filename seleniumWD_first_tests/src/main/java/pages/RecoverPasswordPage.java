@@ -11,8 +11,6 @@ public class RecoverPasswordPage {
 
     /**
      * Constructor for RecoverPasswordPage
-     *
-     * @param driver WebDriver instance
      */
     public RecoverPasswordPage(WebDriver driver) {
         this.driver = driver;

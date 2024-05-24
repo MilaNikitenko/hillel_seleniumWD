@@ -6,12 +6,13 @@
 
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 import pages.RecoverPasswordPage;
+import utils.PropertyFactory;
+
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -19,18 +20,15 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static pages.LoginPage.*;
 import static pages.RecoverPasswordPage.*;
+import dataproviders.LoginPageDataProviders;
 
-/**
- * This class represents the Login Page of the application.
- * It contains methods for setting up the WebDriver, opening the login page,
- * and performing various login-related tests.
- */
 
 @Owner("Liudmyla Nikitenko")
 @Epic("My first UI tests")
 @Link(name = "Login_Page", url = "https://app.signnow.com/rctapp/login")
 
 public class AuthorizationTests extends BaseTest {
+
 
     @Flaky
     @Severity(SeverityLevel.NORMAL)
@@ -128,7 +126,10 @@ public class AuthorizationTests extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     @Test(priority = 6)
     public void checkSuccessLogin(){
-        loginPageHelper.fillEmailOnLoginPage();
+        String email = testConfig.getProperty("user.email");
+        String password = testConfig.getProperty("user.password");
+
+        loginPageHelper.fillEmailOnLoginPage(email);
         loginPageHelper.fillPasswordOnLoginPage(PASSWORD_FIELD);
         loginPageHelper.clickOnLoginButton();
 
@@ -139,5 +140,23 @@ public class AuthorizationTests extends BaseTest {
                 .startsWith("https://app.signnow.com")
                 .contains("/webapp/documents/");
     }
+
+
+    @Severity(SeverityLevel.NORMAL)
+    @Test(priority = 7, dataProviderClass = LoginPageDataProviders.class, dataProvider = "loginData")
+    public void tryLoginWithoutPassword(String email){
+
+        loginPageHelper.fillEmailOnLoginPage(email);
+        loginPageHelper.clickOnLoginButton();
+
+        WebElement passwordErrorAlertText = wait.until(ExpectedConditions.visibilityOfElementLocated(PASSWORD_ERROR_ALERT));
+        String actualErrorText = passwordErrorAlertText.getText();
+        assertThat(actualErrorText).
+                isEqualTo("Password is required");
+
+        String currentURL = driver.getCurrentUrl();
+        assertThat(currentURL).isEqualTo(PropertyFactory.getLoginPageLinkProperty());
+    }
+
 }
 

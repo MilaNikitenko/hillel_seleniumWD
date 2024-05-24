@@ -11,18 +11,12 @@ public class BasePageHelper {
 
     private WebDriver driver;
 
-    /**
-     * Constructor for BasePageHelper
-     *
-     * @param driver WebDriver instance
-     */
     public BasePageHelper(WebDriver driver) {
         this.driver = driver;
     }
 
     /**
      * Clicks on a web element
-     *
      * @param webElement WebElement to be clicked
      */
     public void clickOnWebElement(WebElement webElement) {

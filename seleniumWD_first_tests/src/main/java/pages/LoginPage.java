@@ -7,11 +7,10 @@ import org.openqa.selenium.WebDriver;
  * LoginPage class containing locators for elements on the login page
  */
 public class LoginPage {
-    private WebDriver driver;
+    private  WebDriver driver;
 
     /**
      * Constructor for LoginPage
-     *
      * @param driver WebDriver instance
      */
     public LoginPage(WebDriver driver) {
@@ -25,4 +24,5 @@ public class LoginPage {
     public static final By EMAIL_FIELD = By.xpath("//input[contains(@id, \"login\")]");
     public static final By PASSWORD_FIELD = By.xpath("//*[@id=\"pswd\"]");
     public static final By LOGIN_BUTTON = By.xpath("//button[@aria-label=\"Log in\"]");
+    public static final By PASSWORD_ERROR_ALERT = By.xpath("//*[@id=\"pswd--error-description\"]");
 }

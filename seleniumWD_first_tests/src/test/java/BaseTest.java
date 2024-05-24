@@ -5,9 +5,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 import pages.LoginPage;
 import pages.RecoverPasswordPage;
+import utils.PropertyFactory;
 import utils.WebDriverFactory;
-
 import java.time.Duration;
+import java.util.Properties;
 
 public class BaseTest {
     protected WebDriver driver;
@@ -16,6 +17,8 @@ public class BaseTest {
     protected RecoverPasswordPage recoverPasswordPage;
     protected LoginPageHelper loginPageHelper;
     protected BasePageHelper basePageHelper;
+
+    protected Properties testConfig;
 
     @Parameters("browser")
 
@@ -43,6 +46,7 @@ public class BaseTest {
 
     @BeforeMethod(alwaysRun = true)
     public void openLoginPage(){
-        driver.get("https://app.signnow.com/rctapp/login");
+        this.testConfig = PropertyFactory.loadProperties("test.properties");
+        driver.get(PropertyFactory.getLoginPageLinkProperty());
     }
 }
