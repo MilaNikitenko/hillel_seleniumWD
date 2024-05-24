@@ -123,8 +123,24 @@ public class AuthorizationTests extends BaseTest {
                 .contains("snseats");
     }
 
+    @Severity(SeverityLevel.NORMAL)
+    @Test(priority = 6, dataProviderClass = LoginPageDataProviders.class, dataProvider = "loginData")
+    public void tryLoginWithoutPassword(String email){
+
+        loginPageHelper.fillEmailOnLoginPage(email);
+        loginPageHelper.clickOnLoginButton();
+
+        WebElement passwordErrorAlertText = wait.until(ExpectedConditions.visibilityOfElementLocated(PASSWORD_ERROR_ALERT));
+        String actualErrorText = passwordErrorAlertText.getText();
+        assertThat(actualErrorText).
+                isEqualTo("Password is required");
+
+        String currentURL = driver.getCurrentUrl();
+        assertThat(currentURL).isEqualTo(PropertyFactory.getLoginPageLinkProperty());
+    }
+
     @Severity(SeverityLevel.CRITICAL)
-    @Test(priority = 6)
+    @Test(priority = 7)
     public void checkSuccessLogin(){
         String email = testConfig.getProperty("user.email");
         String password = testConfig.getProperty("user.password");
@@ -142,21 +158,6 @@ public class AuthorizationTests extends BaseTest {
     }
 
 
-    @Severity(SeverityLevel.NORMAL)
-    @Test(priority = 7, dataProviderClass = LoginPageDataProviders.class, dataProvider = "loginData")
-    public void tryLoginWithoutPassword(String email){
-
-        loginPageHelper.fillEmailOnLoginPage(email);
-        loginPageHelper.clickOnLoginButton();
-
-        WebElement passwordErrorAlertText = wait.until(ExpectedConditions.visibilityOfElementLocated(PASSWORD_ERROR_ALERT));
-        String actualErrorText = passwordErrorAlertText.getText();
-        assertThat(actualErrorText).
-                isEqualTo("Password is required");
-
-        String currentURL = driver.getCurrentUrl();
-        assertThat(currentURL).isEqualTo(PropertyFactory.getLoginPageLinkProperty());
-    }
 
 }
 
